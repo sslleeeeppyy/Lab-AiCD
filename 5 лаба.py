@@ -13,6 +13,7 @@ F(0) = F(1) = 3;        F(n) = (-1)n*(F(n-1)/n!- F(n-2) /(2n)!)
 import timeit
 import matplotlib.pyplot as plt
 
+
 """
 Кэш для хранения вычисленных значений факториалов
 """
@@ -20,15 +21,19 @@ cache_F = {0: 3, 1: 3}
 
 """
 Динамическая функция для вычисления F(n)
+
 """
 
-def dynamic_F(n, k=1, cache=cache_F):
+def dynamic_F(n, cache=cache_F):
     if n in cache:
         return cache[n]
     else:
+        global k
         k *= -1
-        result = k * ((dynamic_F(n - 1, k, cache) / dynamic_factorial(n) - dynamic_F(n - 2, k, cache)) / dynamic_factorial(2 * n))
+        print(k)
+        result = k * ((dynamic_F(n - 1, cache) / dynamic_factorial(n) - dynamic_F(n - 2, cache)) / dynamic_factorial(2 * n))
         cache[n] = result
+        print(cache)
         return result
 
 """
@@ -62,7 +67,6 @@ def dynamic_factorial(n):
 Итеративная функция для вычисления факториала
 """
 
-
 def iterative_factorial(n):
     result = 1
     for i in range(2, n + 1):
@@ -78,10 +82,12 @@ def iterative_factorial(n):
 def score_time(func, n):
     return timeit.timeit(lambda: func(n), number=1000)
 
-
 """
 Значения n для которых мы хотим измерить время выполнения
 """
+
+k = 1
+
 n_values = range(1, 10)
 recursive_times = []
 iterative_times = []
