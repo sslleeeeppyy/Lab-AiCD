@@ -30,10 +30,8 @@ def dynamic_F(n, cache=cache_F):
     else:
         global k
         k *= -1
-        print(k)
         result = k * ((dynamic_F(n - 1, cache) / dynamic_factorial(n) - dynamic_F(n - 2, cache)) / dynamic_factorial(2 * n))
         cache[n] = result
-        print(cache)
         return result
 
 """
