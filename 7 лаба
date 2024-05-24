@@ -1,0 +1,81 @@
+import time
+import tkinter as tk
+from tkinter import ttk, scrolledtext
+
+def chet(number):
+    return number % 2 == 0
+
+def odin_v_chisle(number):
+    return str(number).count('1') == 1
+
+def chet_plus_odin(n, even_only=False):
+    result = []
+    for i in range(1, n+1):
+        if even_only and not chet(i):
+            continue
+        if odin_v_chisle(i):
+            result.append(i)
+    return result
+
+def run_algorithmic_approach(n, even_only=False):
+    start = time.perf_counter()
+    numbers = chet_plus_odin(n, even_only)
+    end = time.perf_counter()
+    return numbers, end - start
+
+def run_functional_approach(n, even_only=False):
+    start = time.perf_counter()
+    if even_only:
+        numbers = [i for i in range(1, n+1) if chet(i) and odin_v_chisle(i)]
+    else:
+        numbers = [i for i in range(1, n+1) if odin_v_chisle(i)]
+    end = time.perf_counter()
+    return numbers, end - start
+
+def display_results(numbers, execution_time, text_widget):
+    text_widget.insert(tk.END, "\n".join(map(str, numbers)) + "\n")
+    text_widget.insert(tk.END, f"\nВремя выполнения: {execution_time} секунд\n")
+
+def on_run():
+    n = int(entry_n.get())
+    text_output.delete(1.0, tk.END)
+
+    text_output.insert(tk.END, "Алгоритмический подход:\n")
+    numbers, execution_time = run_algorithmic_approach(n, even_only=True)
+    display_results(numbers, execution_time, text_output)
+
+    text_output.insert(tk.END, "//////////////////////////////////\n\nФункциональный подход:\n")
+    numbers, execution_time1 = run_functional_approach(n, even_only=True)
+    display_results(numbers, execution_time1, text_output)
+    text_output.insert(tk.END, f"Разница по времени выполнения: {abs(execution_time1 - execution_time)} сек\n")
+
+# Создание основного окна
+root = tk.Tk()
+root.title("Четные числа с одной единицей")
+
+# Поле ввода для n
+frame_input = ttk.Frame(root, padding="10")
+frame_input.grid(row=0, column=0, sticky=(tk.W, tk.E))
+ttk.Label(frame_input, text="Введите число n:").grid(row=0, column=0, sticky=tk.W)
+entry_n = ttk.Entry(frame_input, width=20)
+entry_n.grid(row=0, column=1, sticky=(tk.W, tk.E))
+
+# Кнопка запуска
+frame_buttons = ttk.Frame(root, padding="10")
+frame_buttons.grid(row=1, column=0, sticky=(tk.W, tk.E))
+ttk.Button(frame_buttons, text="Запустить", command=on_run).grid(row=0, column=0, sticky=tk.W)
+
+# Поле вывода результатов
+frame_output = ttk.Frame(root, padding="10")
+frame_output.grid(row=2, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+text_output = scrolledtext.ScrolledText(frame_output, width=80, height=20, wrap=tk.WORD)
+text_output.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
+# Настройка растяжения
+root.columnconfigure(0, weight=1)
+root.rowconfigure(2, weight=1)
+frame_output.columnconfigure(0, weight=1)
+frame_output.rowconfigure(0, weight=1)
+
+# Запуск основного цикла обработки событий
+root.mainloop()
