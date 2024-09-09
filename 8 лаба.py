@@ -73,7 +73,7 @@ class CircleApp:
         self.move_button = tk.Button(self.root, text="Передвинуть фигуры", command=self.move_circles)
         self.move_button.pack()
 
-        self.color_button = tk.Button(self.root, text="Поменять цвет фигур", command=self.color_circles)
+        self.color_button = tk.Button(self.root, text="Поменять цвет фигур на случайный", command=self.color_circles)
         self.color_button.pack()
 
         self.check_button = tk.Button(self.root, text="Проверить пересечение фигур", command=self.check_intersections)
