@@ -116,10 +116,9 @@ class CircleApp:
                     intersections.append((circle1.number, circle2.number))
 
         if intersections:
-            messagebox.showinfo("Intersections", f"Intersecting circles: {intersections}")
+            messagebox.showinfo("Intersections", f"Пересекающиеся круги: {intersections}")
         else:
             messagebox.showinfo("Intersections", "No intersections found")
-
 
 if __name__ == "__main__":
     root = tk.Tk()
